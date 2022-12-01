@@ -16,7 +16,7 @@ export const Navbar = () => {
   } = state;
 
   useEffect(() => {
-    const userFromToken = token ? { id: '1', name: 'iliyas' } : null;
+    const userFromToken = token ? null : { id: '1', name: 'iliyas' };
     if (!userFromToken) {
       return;
     }

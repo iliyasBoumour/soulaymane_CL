@@ -14,6 +14,7 @@ interface Props {
     materialName: string;
     requestorName: string;
   }[];
+  requestId: string | null;
   acceptRequest: (requestId: string) => void;
   loadingAcceptRequest: boolean;
   refuseRequest: (requestId: string) => void;
@@ -22,6 +23,7 @@ interface Props {
 
 export const Table: FunctionComponent<Props> = ({
   rows,
+  requestId,
   acceptRequest,
   loadingAcceptRequest,
   refuseRequest,
@@ -52,7 +54,7 @@ export const Table: FunctionComponent<Props> = ({
                 <LoadingButton
                   variant="outlined"
                   color="secondary"
-                  loading={loadingAcceptRequest}
+                  loading={row.requestId === requestId && loadingAcceptRequest}
                   onClick={() => acceptRequest(row.requestId)}
                 >
                   Accepter
