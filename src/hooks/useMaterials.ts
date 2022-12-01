@@ -3,8 +3,9 @@ import axios from 'axios';
 import { Material } from '../types/index';
 
 export const useMaterials = () => {
-  const getMaterials = (): Promise<Material[]> => {
-    return axios.get(`${process.env.API_URL}/materials`);
+  const getMaterials = async (): Promise<Material[]> => {
+    const { data } = await axios.get(`${process.env.API_URL}/materials`);
+    return data;
   };
 
   const { data, isLoading, error } = useQuery('materials', getMaterials);
