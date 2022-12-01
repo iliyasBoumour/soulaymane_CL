@@ -8,10 +8,13 @@ import React, {
 import { Action, State } from '../types';
 import reducer from './reducer';
 
-const initialState = {
-  auth: { token: localStorage.getItem('token') || null
-  
-},
+const user = localStorage.getItem('user');
+
+const initialState: State = {
+  auth: {
+    token: localStorage.getItem('token') || null,
+    user: user ? JSON.parse(user) : null,
+  },
 };
 
 export const Store = createContext<{

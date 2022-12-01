@@ -12,11 +12,11 @@ export const Navbar = () => {
   const [user, setUser] = useState<User | null>(null);
   const { state } = useContext(Store);
   const {
-    auth: { token },
+    auth: { user: authUser },
   } = state;
 
   useEffect(() => {
-    const userFromToken = token ? null : { id: '1', name: 'iliyas' };
+    const userFromToken = authUser;
     if (!userFromToken) {
       return;
     }
@@ -25,7 +25,7 @@ export const Navbar = () => {
       { to: '/demandes', text: 'Demandes', icon: <ListAlt /> },
     ]);
     setUser(userFromToken);
-  }, [token]);
+  }, [authUser]);
 
   return (
     <Nav>

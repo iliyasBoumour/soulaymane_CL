@@ -1,6 +1,7 @@
 export interface User {
   id: string;
   name: string;
+  role: Role[];
 }
 
 export interface Material {
@@ -22,8 +23,7 @@ export enum Role {
 export interface State {
   auth: {
     token: string | null;
-    user: User;
-    role: Role;
+    user?: User | null;
     error?: string;
   };
 }
