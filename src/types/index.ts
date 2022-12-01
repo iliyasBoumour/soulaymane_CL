@@ -8,7 +8,7 @@ export interface Material {
   id: string;
   name: string;
   description: string;
-  categoriyIds: string[];
+  categoryIds: string[];
 }
 
 export interface Category {

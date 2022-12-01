@@ -16,6 +16,7 @@ import { TabsButtons } from '../components/Tabs';
 import { Store } from '../context/Store';
 import { useCategories } from '../hooks/useCategories';
 import { useMaterials } from '../hooks/useMaterials';
+import { useAddMaterial } from '../hooks/useAddMaterial';
 
 export const MaterialsPage = () => {
   const {
@@ -27,10 +28,11 @@ export const MaterialsPage = () => {
     id: '',
     name: '',
     description: '',
-    categoriyIds: [],
+    categoryIds: [],
   });
   const [currentCategory, setCurrentCategory] = useState<number>(-1);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const {mutate:addOffer} = useAddMaterial();
   const { data: categories, error, isLoading } = useCategories();
   const {
     data: materials,
@@ -43,6 +45,10 @@ export const MaterialsPage = () => {
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    addOffer({
+      material:{...material,title:material.name},
+      token
+    })
     console.log(material);
   };
 
@@ -98,7 +104,7 @@ export const MaterialsPage = () => {
                     onChange={(e, value) => {
                       setMaterial({
                         ...material,
-                        categoriyIds: value.map((v) => v.id),
+                        categoryIds: value.map((v) => v.id),
                       });
                     }}
                     renderInput={(params) => (

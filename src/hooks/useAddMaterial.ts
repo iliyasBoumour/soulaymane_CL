@@ -4,7 +4,11 @@ import { getHeader } from '../utils/AuthorizationConfig';
 import { Material } from '../types';
 
 interface AddOfferDto {
-  material: Material;
+  material: {
+    title: string;
+    description: string;
+    categoryIds: string[];
+  };
   token: string | null;
 }
 
@@ -15,7 +19,7 @@ export const useAddMaterial = () => {
     }
     const config = getHeader(token);
     const { data } = await axios.post(
-      `${process.env.REACT_APP_API_URL}/materials`,
+      `${process.env.REACT_APP_API_URL}/representer/offers`,
       material,
       config,
     );
