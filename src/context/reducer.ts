@@ -8,8 +8,8 @@ import {
 const reducer = (state: State, { type, payload }: Action) => {
   switch (type) {
     case USER_LOGIN: {
-      const { token, id, name, role } = payload;
-      const user = { id, name, role };
+      const { token, id, username, role } = payload;
+      const user = { id, name: username, role };
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       return { ...state, auth: { token, user } };
