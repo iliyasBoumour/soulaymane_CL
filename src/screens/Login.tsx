@@ -36,7 +36,7 @@ export const LoginPage = () => {
         <Typography variant="h4">Se connercter</Typography>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Controller
-            name="email"
+            name="username"
             control={control}
             defaultValue=""
             rules={{
