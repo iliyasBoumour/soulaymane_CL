@@ -1,16 +1,19 @@
 import { Button, Paper, styled, Typography } from '@mui/material';
 import { FunctionComponent } from 'react';
+import { Role, User } from '../types';
 
 interface Props {
   id: string;
   name: string;
   description: string;
+  user: User | null | undefined;
   demand: (id: string) => void;
 }
 
 export const Material: FunctionComponent<Props> = ({
   id,
   name,
+  user,
   description,
   demand,
 }) => {
@@ -20,9 +23,11 @@ export const Material: FunctionComponent<Props> = ({
         <Typography variant="h6">{name}</Typography>
         <Typography variant="body1">{description}</Typography>
       </Content>
-      <Button variant="outlined" color="secondary" onClick={() => demand(id)}>
-        Demander
-      </Button>
+      {user && !user.role.includes(Role.ROLE_REPRESENTATIVE) && (
+        <Button variant="outlined" color="secondary" onClick={() => demand(id)}>
+          Demander
+        </Button>
+      )}
     </Container>
   );
 };

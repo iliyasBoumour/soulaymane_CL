@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext, useState } from 'react';
-import { Material as MaterialType } from '../types';
+import { Material as MaterialType, Role } from '../types';
 import { Material } from '../components/Material';
 import { Modal } from '../components/Modal';
 import { PageTitle } from '../components/PageTitle';
@@ -22,7 +22,7 @@ import { useDemandOffer } from '../hooks/useDemandOffer';
 export const MaterialsPage = () => {
   const {
     state: {
-      auth: { token },
+      auth: { token, user },
     },
   } = useContext(Store);
   const [material, setMaterial] = useState<MaterialType>({
@@ -52,6 +52,12 @@ export const MaterialsPage = () => {
       token,
     });
     setAddModalOpen(false);
+    alert('Offre ajouté');
+  };
+
+  const sendDemand = (id: string) => {
+    demandMaterial({ id, token });
+    alert('Demande envoyée');
   };
 
   if (error || errorMaterials) {
@@ -66,7 +72,7 @@ export const MaterialsPage = () => {
     <Box>
       <PageTitle>Matériels disponibles</PageTitle>
       <Container>
-        {token && categories && (
+        {user && user.role.includes(Role.ROLE_REPRESENTATIVE) && categories && (
           <>
             <Button
               variant="contained"
@@ -99,7 +105,6 @@ export const MaterialsPage = () => {
                   />
                   <Autocomplete
                     multiple
-                    color="secondary"
                     options={categories}
                     getOptionLabel={(option) => option.name}
                     filterSelectedOptions
@@ -110,7 +115,11 @@ export const MaterialsPage = () => {
                       });
                     }}
                     renderInput={(params) => (
-                      <TextField {...params} label="categories" />
+                      <TextField
+                        {...params}
+                        color="secondary"
+                        label="categories"
+                      />
                     )}
                   />
                   <Button type="submit" variant="outlined" color="secondary">
@@ -131,15 +140,7 @@ export const MaterialsPage = () => {
         <Grid container spacing={5}>
           {materials?.map((m) => (
             <Grid item key={m.id} xs={12} md={6} lg={4}>
-              <Material
-                {...m}
-                demand={(id: string) =>
-                  demandMaterial({
-                    id,
-                    token,
-                  })
-                }
-              />
+              <Material {...m} user={user} demand={sendDemand} />
             </Grid>
           ))}
         </Grid>
