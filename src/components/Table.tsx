@@ -7,13 +7,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { LoadingButton } from '@mui/lab';
 import { FunctionComponent } from 'react';
+import { Demand } from '../types';
 
 interface Props {
-  rows: {
-    requestId: string;
-    materialName: string;
-    requestorName: string;
-  }[];
+  rows: Demand[];
   requestId: string | null;
   acceptRequest: (requestId: string) => void;
   loadingAcceptRequest: boolean;
@@ -43,19 +40,19 @@ export const Table: FunctionComponent<Props> = ({
         <TableBody>
           {rows.map((row) => (
             <TableRow
-              key={row.requestId}
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.materialName}
+                {row.offerTitle}
               </TableCell>
-              <TableCell align="right">{row.requestorName}</TableCell>
+              <TableCell align="right">{row.demanderTitle}</TableCell>
               <TableCell align="right">
                 <LoadingButton
                   variant="outlined"
                   color="secondary"
-                  loading={row.requestId === requestId && loadingAcceptRequest}
-                  onClick={() => acceptRequest(row.requestId)}
+                  loading={row.id === requestId && loadingAcceptRequest}
+                  onClick={() => acceptRequest(row.id)}
                 >
                   Accepter
                 </LoadingButton>
@@ -65,7 +62,7 @@ export const Table: FunctionComponent<Props> = ({
                   variant="outlined"
                   color="error"
                   loading={loadingRefuseRequest}
-                  onClick={() => refuseRequest(row.requestId)}
+                  onClick={() => refuseRequest(row.id)}
                 >
                   Refuser
                 </LoadingButton>

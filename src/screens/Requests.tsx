@@ -6,18 +6,13 @@ import { PageTitle } from '../components/PageTitle';
 import { Table } from '../components/Table';
 import { Store } from '../context/Store';
 import { useAcceptOffer } from '../hooks/useAcceptOffer';
+import { useDemands } from '../hooks/useDemands';
 import { useRejectOffer } from '../hooks/useRejectOffer';
 
 enum Filter {
   ALL = 'Tout',
   ARCHIVED = 'Archivées',
 }
-
-const rows = Array.from({ length: 10 }, (_, i) => ({
-  requestId: i.toString(),
-  materialName: `Demande ${i}`,
-  requestorName: `Description de la demande ${i}`,
-}));
 
 export const RequestsPage = () => {
   const [filter, setFilter] = React.useState<Filter>(Filter.ALL);
@@ -31,6 +26,7 @@ export const RequestsPage = () => {
       auth: { token },
     },
   } = useContext(Store);
+  const { data: requests } = useDemands(token);
   const { acceptOffer, isLoading: isAcceptingDemand } = useAcceptOffer();
   const { rejectOffer, isLoading: isRefusingDemand } = useRejectOffer();
 
@@ -94,14 +90,16 @@ export const RequestsPage = () => {
             onChange={(value: string) => setFilter(value as Filter)}
           />
         </TogglesContainer>
-        <Table
-          rows={rows}
-          requestId={selectedRequestId}
-          loadingAcceptRequest={isAcceptingDemand}
-          loadingRefuseRequest={isRefusingDemand}
-          acceptRequest={handleAcceptRequest}
-          refuseRequest={handleRefuseRequest}
-        />
+        {requests && (
+          <Table
+            rows={requests}
+            requestId={selectedRequestId}
+            loadingAcceptRequest={isAcceptingDemand}
+            loadingRefuseRequest={isRefusingDemand}
+            acceptRequest={handleAcceptRequest}
+            refuseRequest={handleRefuseRequest}
+          />
+        )}
       </Container>
     </Box>
   );

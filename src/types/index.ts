@@ -11,6 +11,12 @@ export interface Material {
   categoryIds: string[];
 }
 
+export interface Demand {
+  id: string;
+  offerTitle: string;
+  demanderTitle: string;
+}
+
 export interface Category {
   id: string;
   name: string;
