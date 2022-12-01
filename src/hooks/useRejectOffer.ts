@@ -15,7 +15,7 @@ export const useRejectOffer = () => {
     }
     const config = getHeader(token);
     return axios.post(
-      `${process.env.API_URL}/demands/${offerId}/reject`,
+      `${process.env.REACT_APP_API_URL}/demands/${offerId}/reject`,
       {
         comment,
       },

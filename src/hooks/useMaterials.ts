@@ -4,7 +4,9 @@ import { Material } from '../types/index';
 
 export const useMaterials = () => {
   const getMaterials = async (): Promise<Material[]> => {
-    const { data } = await axios.get(`${process.env.API_URL}/materials`);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/materials`,
+    );
     return data;
   };
 
