@@ -14,9 +14,16 @@ export interface Category {
   name: string;
 }
 
+export enum Role {
+  ROLE_MEMBER = 'ROLE_MEMBER',
+  ROLE_REPRESENTATIVE = 'ROLE_REPRESENTATIVE',
+}
+
 export interface State {
   auth: {
     token: string | null;
+    user: User;
+    role: Role;
     error?: string;
   };
 }

@@ -9,7 +9,9 @@ import { Action, State } from '../types';
 import reducer from './reducer';
 
 const initialState = {
-  auth: { token: localStorage.getItem('token') || null },
+  auth: { token: localStorage.getItem('token') || null
+  
+},
 };
 
 export const Store = createContext<{
