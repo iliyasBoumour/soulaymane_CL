@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { Button, styled, Typography } from '@mui/material';
 import { VideoLabel, ListAlt } from '@mui/icons-material';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Store } from '../context/Store';
 import { User } from '../types';
 import { logout } from '../context/actions/authentication';
@@ -9,12 +9,18 @@ import { logout } from '../context/actions/authentication';
 const links = [{ to: '/', text: 'Matériels', icon: <VideoLabel /> }];
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   const [navLinks, setNavLinks] = useState(links);
   const [user, setUser] = useState<User | null>(null);
   const { state, dispatch } = useContext(Store);
   const {
     auth: { user: authUser },
   } = state;
+
+  const handleLogout = () => {
+    logout(dispatch);
+    navigate('/se-connecter');
+  };
 
   useEffect(() => {
     const userFromToken = authUser;
@@ -45,11 +51,7 @@ export const Navbar = () => {
         {user ? (
           <>
             <Typography variant="body1">{user.name}</Typography>
-            <Button
-              size="small"
-              variant="contained"
-              onClick={() => logout(dispatch)}
-            >
+            <Button size="small" variant="contained" onClick={handleLogout}>
               Se déconnecter
             </Button>
           </>
