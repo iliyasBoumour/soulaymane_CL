@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Material as MaterialType } from '../types';
 import { Material } from '../components/Material';
 import { Modal } from '../components/Modal';
@@ -27,7 +27,7 @@ export const MaterialsPage = () => {
     id: '',
     name: '',
     description: '',
-    categoryId: '',
+    categoriesId: [],
   });
   const [currentCategory, setCurrentCategory] = useState<number>(-1);
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -41,12 +41,6 @@ export const MaterialsPage = () => {
   const handleMaterialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaterial({ ...material, [e.target.name]: e.target.value });
   };
-
-  useEffect(() => {
-    if (currentCategory === -1 || !categories) {
-      return;
-    }
-  }, [categories, currentCategory]);
 
   if (error || errorMaterials) {
     return <Typography variant="body1">Error</Typography>;
@@ -93,9 +87,16 @@ export const MaterialsPage = () => {
                   />
                   <Autocomplete
                     multiple
+                    color="secondary"
                     options={categories}
                     getOptionLabel={(option) => option.name}
                     filterSelectedOptions
+                    onChange={(e, value) => {
+                      setMaterial({
+                        ...material,
+                        categoriesId: value.map((v) => v.id),
+                      });
+                    }}
                     renderInput={(params) => (
                       <TextField {...params} label="categories" />
                     )}
@@ -116,9 +117,9 @@ export const MaterialsPage = () => {
           />
         )}
         <Grid container spacing={5}>
-          {materials?.map((material) => (
-            <Grid item key={material.id} xs={12} md={6} lg={4}>
-              <Material {...material} />
+          {materials?.map((m) => (
+            <Grid item key={m.id} xs={12} md={6} lg={4}>
+              <Material {...m} />
             </Grid>
           ))}
         </Grid>

@@ -28,7 +28,7 @@ export const LoginPage = () => {
       return;
     }
     navigate('/');
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <Container>
