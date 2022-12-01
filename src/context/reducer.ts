@@ -19,6 +19,7 @@ const reducer = (state: State, { type, payload }: Action) => {
     }
     case USER_LOGOUT: {
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       return { ...state, auth: { token: null, user: null } };
     }
 

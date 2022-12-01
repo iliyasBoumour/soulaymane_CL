@@ -45,8 +45,12 @@ export const Navbar = () => {
         {user ? (
           <>
             <Typography variant="body1">{user.name}</Typography>
-            <Button variant="contained" onClick={() => logout(dispatch)}>
-              <Typography variant="body1">Se déconnecter</Typography>
+            <Button
+              size="small"
+              variant="contained"
+              onClick={() => logout(dispatch)}
+            >
+              Se déconnecter
             </Button>
           </>
         ) : (
