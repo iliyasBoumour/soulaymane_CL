@@ -27,7 +27,7 @@ export const MaterialsPage = () => {
     id: '',
     name: '',
     description: '',
-    categoriesId: [],
+    categoriyIds: [],
   });
   const [currentCategory, setCurrentCategory] = useState<number>(-1);
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -94,7 +94,7 @@ export const MaterialsPage = () => {
                     onChange={(e, value) => {
                       setMaterial({
                         ...material,
-                        categoriesId: value.map((v) => v.id),
+                        categoriyIds: value.map((v) => v.id),
                       });
                     }}
                     renderInput={(params) => (
