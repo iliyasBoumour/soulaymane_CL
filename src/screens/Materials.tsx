@@ -17,6 +17,7 @@ import { Store } from '../context/Store';
 import { useCategories } from '../hooks/useCategories';
 import { useMaterials } from '../hooks/useMaterials';
 import { useAddMaterial } from '../hooks/useAddMaterial';
+import { useDemandOffer } from '../hooks/useDemandOffer';
 
 export const MaterialsPage = () => {
   const {
@@ -32,13 +33,14 @@ export const MaterialsPage = () => {
   });
   const [currentCategory, setCurrentCategory] = useState<number>(-1);
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const {mutate:addOffer} = useAddMaterial();
+  const { mutate: addOffer } = useAddMaterial();
   const { data: categories, error, isLoading } = useCategories();
   const {
     data: materials,
     error: errorMaterials,
     isLoading: loadingMaterials,
   } = useMaterials();
+  const { mutate: demandMaterial } = useDemandOffer();
 
   const handleMaterialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaterial({ ...material, [e.target.name]: e.target.value });
@@ -46,10 +48,10 @@ export const MaterialsPage = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     addOffer({
-      material:{...material,title:material.name},
-      token
-    })
-    console.log(material);
+      material: { ...material, title: material.name },
+      token,
+    });
+    setAddModalOpen(false);
   };
 
   if (error || errorMaterials) {
@@ -129,7 +131,15 @@ export const MaterialsPage = () => {
         <Grid container spacing={5}>
           {materials?.map((m) => (
             <Grid item key={m.id} xs={12} md={6} lg={4}>
-              <Material {...m} />
+              <Material
+                {...m}
+                demand={(id: string) =>
+                  demandMaterial({
+                    id,
+                    token,
+                  })
+                }
+              />
             </Grid>
           ))}
         </Grid>
