@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Grid,
@@ -7,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
+import { Material as MaterialType } from '../types';
 import { Material } from '../components/Material';
 import { Modal } from '../components/Modal';
 import { PageTitle } from '../components/PageTitle';
@@ -21,6 +23,12 @@ export const MaterialsPage = () => {
       auth: { token },
     },
   } = useContext(Store);
+  const [material, setMaterial] = useState<MaterialType>({
+    id: '',
+    name: '',
+    description: '',
+    categoryId: '',
+  });
   const [currentCategory, setCurrentCategory] = useState<number>(-1);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { data: categories, error, isLoading } = useCategories();
@@ -30,11 +38,14 @@ export const MaterialsPage = () => {
     isLoading: loadingMaterials,
   } = useMaterials();
 
+  const handleMaterialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMaterial({ ...material, [e.target.name]: e.target.value });
+  };
+
   useEffect(() => {
     if (currentCategory === -1 || !categories) {
       return;
     }
-    console.log('fetch ', categories[currentCategory]);
   }, [categories, currentCategory]);
 
   if (error || errorMaterials) {
@@ -48,36 +59,55 @@ export const MaterialsPage = () => {
   return (
     <Box>
       <PageTitle>Matériels disponibles</PageTitle>
-      {token && (
-        <>
-          <Button variant="contained" color="secondary">
-            Ajouter une offre
-          </Button>
-          <Modal open={addModalOpen} onClose={() => setAddModalOpen(false)}>
-            <ModalContent>
-              <Typography variant="h6">Ajouter une offre</Typography>
-              <Form>
-                <TextField
-                  label="Nom du matériel"
-                  variant="outlined"
-                  fullWidth
-                  color="secondary"
-                />
-                <TextField
-                  label="Description"
-                  variant="outlined"
-                  fullWidth
-                  color="secondary"
-                />
-                <Button variant="outlined" color="secondary">
-                  Ajouter
-                </Button>
-              </Form>
-            </ModalContent>
-          </Modal>
-        </>
-      )}
       <Container>
+        {token && categories && (
+          <>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setAddModalOpen(true)}
+            >
+              Ajouter une offre
+            </Button>
+            <Modal open={addModalOpen} onClose={() => setAddModalOpen(false)}>
+              <ModalContent>
+                <Typography variant="h6">Ajouter une offre</Typography>
+                <Form>
+                  <TextField
+                    label="Nom du matériel"
+                    variant="outlined"
+                    name="name"
+                    value={material.name}
+                    onChange={handleMaterialChange}
+                    fullWidth
+                    color="secondary"
+                  />
+                  <TextField
+                    label="Description"
+                    variant="outlined"
+                    name="description"
+                    value={material.description}
+                    onChange={handleMaterialChange}
+                    fullWidth
+                    color="secondary"
+                  />
+                  <Autocomplete
+                    multiple
+                    options={categories}
+                    getOptionLabel={(option) => option.name}
+                    filterSelectedOptions
+                    renderInput={(params) => (
+                      <TextField {...params} label="categories" />
+                    )}
+                  />
+                  <Button variant="outlined" color="secondary">
+                    Ajouter
+                  </Button>
+                </Form>
+              </ModalContent>
+            </Modal>
+          </>
+        )}
         {categories && (
           <TabsButtons
             options={categories?.map((category) => category.name)}

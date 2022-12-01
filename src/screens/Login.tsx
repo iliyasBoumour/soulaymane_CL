@@ -1,11 +1,18 @@
 import { Button, Paper, styled, TextField, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../context/actions/authentication';
 import { Store } from '../context/Store';
 
 export const LoginPage = () => {
-  const { dispatch } = useContext(Store);
+  const navigate = useNavigate();
+  const { state, dispatch } = useContext(Store);
+
+  const {
+    auth: { user },
+  } = state;
+
   const {
     handleSubmit,
     control,
@@ -15,6 +22,13 @@ export const LoginPage = () => {
   const onSubmit = (data: any) => {
     login(dispatch, data);
   };
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    navigate('/');
+  }, [user]);
 
   return (
     <Container>
