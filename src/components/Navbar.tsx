@@ -1,16 +1,17 @@
 import { useEffect, useState, useContext } from 'react';
-import { styled, Typography } from '@mui/material';
+import { Button, styled, Typography } from '@mui/material';
 import { VideoLabel, ListAlt } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
 import { Store } from '../context/Store';
 import { User } from '../types';
+import { logout } from '../context/actions/authentication';
 
 const links = [{ to: '/', text: 'Matériels', icon: <VideoLabel /> }];
 
 export const Navbar = () => {
   const [navLinks, setNavLinks] = useState(links);
   const [user, setUser] = useState<User | null>(null);
-  const { state } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
   const {
     auth: { user: authUser },
   } = state;
@@ -42,7 +43,12 @@ export const Navbar = () => {
       </NavMenu>
       <Account>
         {user ? (
-          <Typography variant="body1">{user.name}</Typography>
+          <>
+            <Typography variant="body1">{user.name}</Typography>
+            <Button variant="contained" onClick={() => logout(dispatch)}>
+              <Typography variant="body1">Se déconnecter</Typography>
+            </Button>
+          </>
         ) : (
           <Link to="/se-connecter">Se connecter</Link>
         )}
