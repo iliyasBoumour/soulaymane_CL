@@ -96,6 +96,7 @@ export const RequestsPage = () => {
         </TogglesContainer>
         <Table
           rows={rows}
+          requestId={selectedRequestId}
           loadingAcceptRequest={isAcceptingDemand}
           loadingRefuseRequest={isRefusingDemand}
           acceptRequest={handleAcceptRequest}

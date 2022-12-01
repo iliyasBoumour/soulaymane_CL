@@ -1,13 +1,28 @@
-import { Box, Grid, styled, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  Grid,
+  styled,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
 import { Material } from '../components/Material';
+import { Modal } from '../components/Modal';
 import { PageTitle } from '../components/PageTitle';
 import { TabsButtons } from '../components/Tabs';
+import { Store } from '../context/Store';
 import { useCategories } from '../hooks/useCategories';
 import { useMaterials } from '../hooks/useMaterials';
 
 export const MaterialsPage = () => {
+  const {
+    state: {
+      auth: { token },
+    },
+  } = useContext(Store);
   const [currentCategory, setCurrentCategory] = useState<number>(-1);
+  const [addModalOpen, setAddModalOpen] = useState(false);
   const { data: categories, error, isLoading } = useCategories();
   const {
     data: materials,
@@ -33,6 +48,35 @@ export const MaterialsPage = () => {
   return (
     <Box>
       <PageTitle>Matériels disponibles</PageTitle>
+      {token && (
+        <>
+          <Button variant="contained" color="secondary">
+            Ajouter une offre
+          </Button>
+          <Modal open={addModalOpen} onClose={() => setAddModalOpen(false)}>
+            <ModalContent>
+              <Typography variant="h6">Ajouter une offre</Typography>
+              <Form>
+                <TextField
+                  label="Nom du matériel"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                />
+                <TextField
+                  label="Description"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                />
+                <Button variant="outlined" color="secondary">
+                  Ajouter
+                </Button>
+              </Form>
+            </ModalContent>
+          </Modal>
+        </>
+      )}
       <Container>
         {categories && (
           <TabsButtons
@@ -55,6 +99,19 @@ export const MaterialsPage = () => {
 
 const Container = styled('div')`
   padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const ModalContent = styled('div')`
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Form = styled('form')`
   display: flex;
   flex-direction: column;
   gap: 1rem;
