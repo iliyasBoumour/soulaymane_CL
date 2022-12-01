@@ -41,10 +41,10 @@ export const MaterialsPage = () => {
   const handleMaterialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaterial({ ...material, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e:any)=>{
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log(material);
-  }
+  };
 
   if (error || errorMaterials) {
     return <Typography variant="body1">Error</Typography>;
@@ -70,7 +70,7 @@ export const MaterialsPage = () => {
             <Modal open={addModalOpen} onClose={() => setAddModalOpen(false)}>
               <ModalContent>
                 <Typography variant="h6">Ajouter une offre</Typography>
-                <Form onSubmit={(e)=>handleSubmit(e)}>
+                <Form onSubmit={(e) => handleSubmit(e)}>
                   <TextField
                     label="Nom du matériel"
                     variant="outlined"
