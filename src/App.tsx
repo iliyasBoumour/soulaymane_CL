@@ -12,7 +12,15 @@ import { RequestsPage } from './screens/Requests';
 import { LoginPage } from './screens/Login';
 import { MyOffersPage } from './screens/MyOffers';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+    },
+  },
+});
 
 const App = () => {
   return (

@@ -8,11 +8,7 @@ import { Store } from '../context/Store';
 import { useAcceptOffer } from '../hooks/useAcceptOffer';
 import { useDemands } from '../hooks/useDemands';
 import { useRejectOffer } from '../hooks/useRejectOffer';
-
-enum Filter {
-  ALL = 'Tout',
-  ARCHIVED = 'Archivées',
-}
+import { Filter } from '../types';
 
 export const RequestsPage = () => {
   const [filter, setFilter] = React.useState<Filter>(Filter.ALL);

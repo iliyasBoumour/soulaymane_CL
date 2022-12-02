@@ -13,7 +13,11 @@ export interface Material {
 
 export interface MaterialDto extends Material {
   isArchived: boolean;
-  ownerId: string;
+}
+
+export enum Filter {
+  ALL = 'Tout',
+  ARCHIVED = 'Archivées',
 }
 
 export interface Demand {

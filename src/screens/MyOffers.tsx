@@ -6,7 +6,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { ButtonsGroup } from '../components/ButtonsGroup';
 import { Modal } from '../components/Modal';
 import { MyOffersTable } from '../components/MyOffersTable';
 import { PageTitle } from '../components/PageTitle';
@@ -15,10 +16,12 @@ import { useAddMaterial } from '../hooks/useAddMaterial';
 import { useCategories } from '../hooks/useCategories';
 import { useDeleteOffer } from '../hooks/useDeleteOffer';
 import { useMyOffers } from '../hooks/useMyOffers';
-import { Material as MaterialType, Role } from '../types';
+import { Filter, Material as MaterialType, MaterialDto, Role } from '../types';
 
 export const MyOffersPage = () => {
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [filter, setFilter] = useState(Filter.ALL);
+  const [filtredOffers, setFiltredOffers] = useState<MaterialDto[]>([]);
   const [material, setMaterial] = useState<MaterialType>({
     id: '',
     name: '',
@@ -55,10 +58,34 @@ export const MyOffersPage = () => {
     alert('Offre ajouté');
   };
 
+  useEffect(() => {
+    if (!myOffers) {
+      return;
+    }
+    switch (filter) {
+      case Filter.ALL:
+        setFiltredOffers(myOffers);
+        break;
+
+      case Filter.ARCHIVED:
+        setFiltredOffers(myOffers.filter((offer) => offer.isArchived));
+        break;
+      default:
+        setFiltredOffers([]);
+    }
+  }, [filter, myOffers]);
+
   return (
     <Box>
       <PageTitle>Mes offres</PageTitle>
       <Container>
+        <TogglesContainer>
+          <ButtonsGroup
+            options={[Filter.ALL, Filter.ARCHIVED]}
+            value={filter}
+            onChange={(value: string) => setFilter(value as Filter)}
+          />
+        </TogglesContainer>
         {user && user.role.includes(Role.ROLE_REPRESENTATIVE) && categories && (
           <>
             <Button
@@ -118,7 +145,10 @@ export const MyOffersPage = () => {
           </>
         )}
         {myOffers && (
-          <MyOffersTable rows={myOffers} handleDelete={handleDeleteOffer} />
+          <MyOffersTable
+            rows={filtredOffers}
+            handleDelete={handleDeleteOffer}
+          />
         )}
       </Container>
     </Box>
@@ -143,4 +173,10 @@ const Form = styled('form')`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`;
+
+const TogglesContainer = styled('div')`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 `;
