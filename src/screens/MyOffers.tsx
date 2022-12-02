@@ -57,7 +57,7 @@ export const MyOffersPage = () => {
     setAddModalOpen(false);
     alert('Offre ajouté');
   };
-
+console.log(myOffers)
   useEffect(() => {
     if (!myOffers) {
       return;
