@@ -8,10 +8,13 @@ import {
 } from '@mui/material';
 import { useContext, useState } from 'react';
 import { Modal } from '../components/Modal';
+import { MyOffersTable } from '../components/MyOffersTable';
 import { PageTitle } from '../components/PageTitle';
 import { Store } from '../context/Store';
 import { useAddMaterial } from '../hooks/useAddMaterial';
 import { useCategories } from '../hooks/useCategories';
+import { useDeleteOffer } from '../hooks/useDeleteOffer';
+import { useMyOffers } from '../hooks/useMyOffers';
 import { Material as MaterialType, Role } from '../types';
 
 export const MyOffersPage = () => {
@@ -29,9 +32,16 @@ export const MyOffersPage = () => {
   } = useContext(Store);
   const { data: categories } = useCategories();
   const { mutate: addOffer } = useAddMaterial();
+  const { myOffers, refetch } = useMyOffers();
+  const deleteOffer = useDeleteOffer();
 
   const handleMaterialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaterial({ ...material, [e.target.name]: e.target.value });
+  };
+
+  const handleDeleteOffer = (id: string) => {
+    deleteOffer(id);
+    refetch();
   };
 
   const handleSubmit = (e: any) => {
@@ -46,7 +56,7 @@ export const MyOffersPage = () => {
 
   return (
     <Box>
-      <PageTitle>Matériels disponibles</PageTitle>
+      <PageTitle>Mes offres</PageTitle>
       <Container>
         {user && user.role.includes(Role.ROLE_REPRESENTATIVE) && categories && (
           <>
@@ -105,6 +115,9 @@ export const MyOffersPage = () => {
               </ModalContent>
             </Modal>
           </>
+        )}
+        {myOffers && (
+          <MyOffersTable rows={myOffers} handleDelete={handleDeleteOffer} />
         )}
       </Container>
     </Box>

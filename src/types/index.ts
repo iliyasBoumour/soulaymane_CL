@@ -12,6 +12,7 @@ export interface Material {
 }
 
 export interface MaterialDto extends Material {
+  isArchived: boolean;
   ownerId: string;
 }
 
