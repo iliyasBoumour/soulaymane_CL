@@ -11,10 +11,9 @@ const links = [{ to: '/', text: 'Matériels', icon: <VideoLabel /> }];
 export const Navbar = () => {
   const navigate = useNavigate();
   const [navLinks, setNavLinks] = useState(links);
-  const [user, setUser] = useState<User | null>(null);
   const { state, dispatch } = useContext(Store);
   const {
-    auth: { user: authUser },
+    auth: { user },
   } = state;
 
   const handleLogout = () => {
@@ -23,16 +22,15 @@ export const Navbar = () => {
   };
 
   useEffect(() => {
-    const userFromToken = authUser;
-    if (!userFromToken) {
+    if (!user) {
+      setNavLinks(links);
       return;
     }
     setNavLinks([
       ...links,
       { to: '/demandes', text: 'Demandes', icon: <ListAlt /> },
     ]);
-    setUser(userFromToken);
-  }, [authUser]);
+  }, [user]);
 
   return (
     <Nav>
