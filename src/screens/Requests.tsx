@@ -1,5 +1,5 @@
 import { Box, Button, styled, TextField, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ButtonsGroup } from '../components/ButtonsGroup';
 import { Modal } from '../components/Modal';
 import { PageTitle } from '../components/PageTitle';
@@ -8,12 +8,13 @@ import { Store } from '../context/Store';
 import { useAcceptOffer } from '../hooks/useAcceptOffer';
 import { useDemands } from '../hooks/useDemands';
 import { useRejectOffer } from '../hooks/useRejectOffer';
-import { Filter } from '../types';
+import { Demand, Filter } from '../types';
 
 export const RequestsPage = () => {
   const [filter, setFilter] = React.useState<Filter>(Filter.ALL);
   const [showModal, setShowModal] = React.useState(false);
   const [comment, setComment] = React.useState('');
+  const [filtredDemands, setFiltredDemands] = React.useState<Demand[]>([]);
   const [selectedRequestId, setSelectedRequestId] = React.useState<
     string | null
   >(null);
@@ -47,6 +48,22 @@ export const RequestsPage = () => {
     }
     setShowModal(false);
   };
+
+  useEffect(() => {
+    if (!requests) {
+      return;
+    }
+    switch (filter) {
+      case Filter.ALL:
+        setFiltredDemands(requests);
+        break;
+      case Filter.ARCHIVED:
+        setFiltredDemands(requests.filter((request) => request.isArchived));
+        break;
+      default:
+        setFiltredDemands([]);
+    }
+  }, [filter, requests]);
 
   return (
     <Box>
@@ -88,7 +105,7 @@ export const RequestsPage = () => {
         </TogglesContainer>
         {requests && (
           <Table
-            rows={requests}
+            rows={filtredDemands}
             requestId={selectedRequestId}
             loadingAcceptRequest={isAcceptingDemand}
             loadingRefuseRequest={isRefusingDemand}

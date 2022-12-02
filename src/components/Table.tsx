@@ -5,9 +5,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { LoadingButton } from '@mui/lab';
+import { Alert, LoadingButton } from '@mui/lab';
 import { FunctionComponent } from 'react';
-import { Demand } from '../types';
+import { Demand, DemandStatus } from '../types';
 
 interface Props {
   rows: Demand[];
@@ -46,27 +46,35 @@ export const Table: FunctionComponent<Props> = ({
               <TableCell component="th" scope="row">
                 {row.offerTitle}
               </TableCell>
-              <TableCell align="right">{row.demanderTitle}</TableCell>
-              <TableCell align="right">
-                <LoadingButton
-                  variant="outlined"
-                  color="secondary"
-                  loading={row.id === requestId && loadingAcceptRequest}
-                  onClick={() => acceptRequest(row.id)}
-                >
-                  Accepter
-                </LoadingButton>
-              </TableCell>
-              <TableCell align="right">
-                <LoadingButton
-                  variant="outlined"
-                  color="error"
-                  loading={loadingRefuseRequest}
-                  onClick={() => refuseRequest(row.id)}
-                >
-                  Refuser
-                </LoadingButton>
-              </TableCell>
+              <TableCell align="right">{row.demanderUsername}</TableCell>
+              {row.status === DemandStatus.ACCEPTED ? (
+                <Alert severity="success">Demande acceptée</Alert>
+              ) : row.status === DemandStatus.REFUSED ? (
+                <Alert severity="error">Demande refusée</Alert>
+              ) : (
+                <>
+                  <TableCell align="right">
+                    <LoadingButton
+                      variant="outlined"
+                      color="secondary"
+                      loading={row.id === requestId && loadingAcceptRequest}
+                      onClick={() => acceptRequest(row.id)}
+                    >
+                      Accepter
+                    </LoadingButton>
+                  </TableCell>
+                  <TableCell align="right">
+                    <LoadingButton
+                      variant="outlined"
+                      color="error"
+                      loading={loadingRefuseRequest}
+                      onClick={() => refuseRequest(row.id)}
+                    >
+                      Refuser
+                    </LoadingButton>
+                  </TableCell>
+                </>
+              )}
             </TableRow>
           ))}
         </TableBody>

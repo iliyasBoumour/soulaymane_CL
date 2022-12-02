@@ -20,10 +20,17 @@ export enum Filter {
   ARCHIVED = 'Archivées',
 }
 
+export enum DemandStatus {
+  REFUSED = 'REFUSED',
+  ACCEPTED = 'ACCEPTED',
+}
+
 export interface Demand {
   id: string;
   offerTitle: string;
-  demanderTitle: string;
+  demanderUsername: string;
+  status: DemandStatus;
+  isArchived: boolean;
 }
 
 export interface Category {
