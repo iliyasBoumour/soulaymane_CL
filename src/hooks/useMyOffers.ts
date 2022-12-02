@@ -16,7 +16,7 @@ export const useMyOffers = () => {
     }
     const config = getHeader(token);
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/offers/my`,
+      `${process.env.REACT_APP_API_URL}/offers/myOffers`,
       config,
     );
     return data;
