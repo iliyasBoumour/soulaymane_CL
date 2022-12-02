@@ -11,6 +11,10 @@ export interface Material {
   categoryIds: string[];
 }
 
+export interface MaterialDto extends Material {
+  ownerId: string;
+}
+
 export interface Demand {
   id: string;
   offerTitle: string;

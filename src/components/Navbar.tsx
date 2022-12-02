@@ -3,10 +3,15 @@ import { Button, styled, Typography } from '@mui/material';
 import { VideoLabel, ListAlt } from '@mui/icons-material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Store } from '../context/Store';
-import { User } from '../types';
 import { logout } from '../context/actions/authentication';
 
 const links = [{ to: '/', text: 'Offres', icon: <VideoLabel /> }];
+
+const protectedLinks = [
+  ...links,
+  { to: '/demandes', text: 'Demandes', icon: <ListAlt /> },
+  { to: '/mes-offres', text: 'Mes offres', icon: <ListAlt /> },
+];
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -26,10 +31,7 @@ export const Navbar = () => {
       setNavLinks(links);
       return;
     }
-    setNavLinks([
-      ...links,
-      { to: '/demandes', text: 'Demandes', icon: <ListAlt /> },
-    ]);
+    setNavLinks(protectedLinks);
   }, [user]);
 
   return (

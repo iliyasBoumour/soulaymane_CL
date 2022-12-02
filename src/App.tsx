@@ -10,6 +10,7 @@ import { MaterialsPage } from './screens/Materials';
 import { StoreProvider } from './context/Store';
 import { RequestsPage } from './screens/Requests';
 import { LoginPage } from './screens/Login';
+import { MyOffersPage } from './screens/MyOffers';
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="/" element={<MaterialsPage />} />
                     <Route path="/demandes" element={<RequestsPage />} />
                     <Route path="/se-connecter" element={<LoginPage />} />
+                    <Route path="/mes-offres" element={<MyOffersPage />} />
                   </Routes>
                 </Box>
               </QueryClientProvider>
