@@ -68,7 +68,7 @@ export const MyOffersPage = () => {
         break;
 
       case Filter.ARCHIVED:
-        setFiltredOffers(myOffers.filter((offer) => offer.isArchived));
+        setFiltredOffers(myOffers.filter((offer) => offer.archived));
         break;
       default:
         setFiltredOffers([]);

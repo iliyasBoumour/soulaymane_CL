@@ -12,7 +12,7 @@ export interface Material {
 }
 
 export interface MaterialDto extends Material {
-  isArchived: boolean;
+  archived: boolean;
 }
 
 export enum Filter {
