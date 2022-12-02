@@ -6,7 +6,7 @@ import { Store } from '../context/Store';
 import { User } from '../types';
 import { logout } from '../context/actions/authentication';
 
-const links = [{ to: '/', text: 'Matériels', icon: <VideoLabel /> }];
+const links = [{ to: '/', text: 'Offres', icon: <VideoLabel /> }];
 
 export const Navbar = () => {
   const navigate = useNavigate();
