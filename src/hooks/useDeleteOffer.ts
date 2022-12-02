@@ -18,7 +18,7 @@ export const useDeleteOffer = () => {
 
   const deleteOffer = async (offerId: string) => {
     await axios.delete(
-      `${process.env.REACT_APP_API_URL}/offers/${offerId}`,
+      `${process.env.REACT_APP_API_URL}/representer/offers/${offerId}`,
       config,
     );
   };
