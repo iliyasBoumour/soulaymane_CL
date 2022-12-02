@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 export const useMyOffers = () => {
   const getMyOffers = async () => {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/offers/my`,
+      `${process.env.REACT_APP_API_URL}/offers/myOffers`,
     );
     return data;
   };
