@@ -50,6 +50,7 @@ export const MyOffersPage = () => {
       material: { ...material, title: material.name },
       token,
     });
+    refetch();
     setAddModalOpen(false);
     alert('Offre ajouté');
   };
