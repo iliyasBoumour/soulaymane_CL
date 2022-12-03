@@ -58,7 +58,7 @@ export const RequestsPage = () => {
         setFiltredDemands(requests);
         break;
       case Filter.ARCHIVED:
-        setFiltredDemands(requests.filter((request) => request.isArchived));
+        setFiltredDemands(requests.filter((request) => request.archived));
         break;
       default:
         setFiltredDemands([]);

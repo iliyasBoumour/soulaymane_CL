@@ -30,7 +30,7 @@ export interface Demand {
   offerTitle: string;
   demanderUsername: string;
   status: DemandStatus;
-  isArchived: boolean;
+  archived: boolean;
 }
 
 export interface Category {
