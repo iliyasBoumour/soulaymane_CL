@@ -32,9 +32,9 @@ export const Table: FunctionComponent<Props> = ({
         <TableHead>
           <TableRow>
             <TableCell>Matériel</TableCell>
-            <TableCell align="right">Demandeur</TableCell>
-            <TableCell align="right" />
-            <TableCell align="right" />
+            <TableCell>Demandeur</TableCell>
+            <TableCell />
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -46,14 +46,14 @@ export const Table: FunctionComponent<Props> = ({
               <TableCell component="th" scope="row">
                 {row.offerTitle}
               </TableCell>
-              <TableCell align="right">{row.demanderUsername}</TableCell>
+              <TableCell>{row.demanderUsername}</TableCell>
               {row.status === DemandStatus.ACCEPTED ? (
                 <Alert severity="success">Demande acceptée</Alert>
               ) : row.status === DemandStatus.REFUSED ? (
                 <Alert severity="error">Demande refusée</Alert>
               ) : (
                 <>
-                  <TableCell align="right">
+                  <TableCell>
                     <LoadingButton
                       variant="outlined"
                       color="secondary"
@@ -63,7 +63,7 @@ export const Table: FunctionComponent<Props> = ({
                       Accepter
                     </LoadingButton>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <LoadingButton
                       variant="outlined"
                       color="error"
