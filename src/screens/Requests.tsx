@@ -39,7 +39,7 @@ export const RequestsPage = () => {
   };
 
   const rejectRequest = () => {
-    if (selectedRequestId) {
+    if (selectedRequestId && comment) {
       rejectOffer({
         offerId: selectedRequestId,
         comment,
@@ -73,6 +73,7 @@ export const RequestsPage = () => {
             Voulez-vous vraiment refuser cette demande ?
           </Typography>
           <TextField
+            required
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             fullWidth

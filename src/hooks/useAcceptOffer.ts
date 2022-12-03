@@ -14,7 +14,7 @@ export const useAcceptOffer = () => {
     }
     const config = getHeader(token);
     const { data } = await axios.put(
-      `${process.env.REACT_APP_API_URL}/representer/offers/${offerId}/accept`,
+      `${process.env.REACT_APP_API_URL}/representer/demands/${offerId}/accept`,
       {},
       config,
     );

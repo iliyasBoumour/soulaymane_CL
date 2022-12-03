@@ -14,8 +14,8 @@ export const useRejectOffer = () => {
       throw new Error('Missing token');
     }
     const config = getHeader(token);
-    return axios.post(
-      `${process.env.REACT_APP_API_URL}/demands/${offerId}/reject`,
+    return axios.put(
+      `${process.env.REACT_APP_API_URL}/representer/demands/${offerId}/reject`,
       {
         comment,
       },
